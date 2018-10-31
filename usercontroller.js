@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded( {extended: true}));
 router.use(bodyParser.json());
 
-var User = require('./User');
+var User = require('./user');
 
 
 //Creates a new user
@@ -18,7 +18,10 @@ router.post('/', function (req, res)
     },
     function(err, user)
     {
-        if(err) return res.status(500).send("There was a problem adding the information to the database.");
+        if(err)
+        {
+            return res.status(500).send("There was a problem adding the information to the database.");
+        } 
         res.status(200).send(user);
     });
 });

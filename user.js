@@ -1,5 +1,6 @@
 // User.js
-var mongoose = require('mongoose');  
+var mongoose = require('mongoose'); 
+
 var UserSchema = new mongoose.Schema({  
   email: 
   {
@@ -7,13 +8,19 @@ var UserSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  name: {
+  name: 
+  {
     type: String,
     required: true
   },
+  password:
+  {
   hash: String,
   salt: String
+  }
 });
+
+
 
 mongoose.model('User', UserSchema);
 
