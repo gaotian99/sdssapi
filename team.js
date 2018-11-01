@@ -12,6 +12,11 @@ var RegisteredTeamSchema = new mongoose.Schema({
     {
       type: String,
       required: true,
+    },
+    team_captain:
+    {
+      type: String,
+      required: true
     }
   })
 

@@ -7,7 +7,7 @@ router.use(bodyParser.json());
 var RegisteredTeam = require('./team');
 
 
-//Creates a new team
+//Creates a new user
 router.post('/', function (req, res) 
 {
     RegisteredTeam.create(
@@ -25,7 +25,7 @@ router.post('/', function (req, res)
     });
 });
 
-//Returns all the teams in the database
+//Returns all the users in the database
 router.get('/', function (req, res)
 {
     RegisteredTeam.find({}, function (err, users)
@@ -35,7 +35,7 @@ router.get('/', function (req, res)
     });
 });
 
-//Gets a single team from the database
+//Gets a single user from the database
 router.get('/:id', function(req, res)
 {
     RegisteredTeam.findById(req.params.id, function(err, user) 
@@ -46,7 +46,7 @@ router.get('/:id', function(req, res)
     });
 });
 
-//Deletes a single team from the database
+//Deletes a single user from the database
 router.delete('/:id', function (req, res) 
 {
     RegisteredTeam.findByIdAndRemove(req.params.id, function(err,user) 
@@ -56,7 +56,7 @@ router.delete('/:id', function (req, res)
     });
 });
 
-//Updates a single team in the database
+//Updates a single user in the database
 router.put('/:id', function (req, res) 
 {
     RegisteredTeam.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user)
