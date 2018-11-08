@@ -27,8 +27,9 @@ app.use(cors());
 var UserController = require('./usercontroller');
 app.use('/users', UserController);
 
+
 var TeamController = require('./teamcontroller');
-app.use('/displayteams', TeamController);
+app.use('/teams', TeamController); //URL to use
 
 
 
