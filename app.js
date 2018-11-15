@@ -31,6 +31,9 @@ app.use('/users', UserController);
 var TeamController = require('./teamcontroller');
 app.use('/teams', TeamController); //URL to use
 
+var PlayerController = require('./playercontroller');
+app.use('/players', PlayerController);
+
 
 
 // catch 404 and forward to error handler
