@@ -48,8 +48,10 @@ router.get('/:id', function (req, res) {
     let teamID = req.params.id;
     let returnData = {};
 
+
     //find team
     RegisteredTeam.findById(
+
         {
             _id: teamID
         }, function (err, team) {
@@ -59,13 +61,15 @@ router.get('/:id', function (req, res) {
             }
             Player.find(
                 {
-                    player_team: teamID
+                    _id:{$in:team.players}
                 }, function (err, players) {
                     if (err) {
                         res.send("MAJOR ERROR");
                     }
+                    team = team.toJSON();
+                    //players = players.toJSON();
                     returnData.team = team;
-                    returnData.players = players;
+                    returnData.team.players = players;
 
                     res.json(returnData);
                 })
@@ -80,7 +84,7 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-//Updates a single user in the database
+//Updates a single team in the database
 router.put('/:id', function (req, res) {
     RegisteredTeam.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, team) {
         if (err) return res.status(500).send("There was a problem updating the user.");

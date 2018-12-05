@@ -17,7 +17,9 @@ var RegisteredTeamSchema = new mongoose.Schema({
     {
       type: String,
       required: true
-    }
+    },
+    players: {type: [String]},
+
   })
 
 
