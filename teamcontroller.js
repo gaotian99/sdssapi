@@ -8,6 +8,7 @@ var Player = require('./player');
 
 //Creates a new team
 router.post('/', function (req, res) {
+    console.log(res);
     RegisteredTeam.create(
         {
             team_name: req.body.team_name,

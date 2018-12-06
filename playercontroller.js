@@ -21,6 +21,10 @@ router.post('/', function (req, res) {
                 console.log(err);
                 return res.status(500).send("There was a problem adding the information to the database.");
             }
+                console.log(req.body.teamID);
+                console.log("hello");
+                //console.log(teamID);
+                //res.status(200).send(player);//return the player
                 let teamID = req.body.teamID;
 
                 //find team????
@@ -32,7 +36,7 @@ router.post('/', function (req, res) {
             
         });
 
-   // res.status(200).send(player);//return the player
+    //res.status(200).send(player);//return the player
 });
 
 //Returns all the players in the database
