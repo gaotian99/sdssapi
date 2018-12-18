@@ -2,18 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 
-var RegisteredTeam = require('./team');
-var Player = require('./player');
+var Team = require('../models/team');
+var User = require('../models/user');
 
 
-//Creates a new team
-router.post('/', function (req, res) {
+//Creates a new team **WORKS
+router.post('/create', function (req, res) {
     console.log(res);
-    RegisteredTeam.create(
+    Team.create(
         {
-            team_name: req.body.team_name,
-            team_sport: req.body.team_sport,
-            team_captain: req.body.team_captain,
+            name: req.body.name,
+            leagueID: req.body.leagueID,
+            captain: req.body.captain,
+
         },
         function (err, team) {
             if (err) {
@@ -24,10 +25,32 @@ router.post('/', function (req, res) {
         });
 });
 
+//adds a user to a team **WORKS
+router.post('/player/add', function (req, res) {
+
+    let teamID = req.body.teamID;
+
+    Team.findByIdAndUpdate(
+        teamID,
+        {
+            $push: {
+                players: req.body.userID
+            }
+        },
+        {
+            new: true
+        },
+        function (err, team) {
+            if (err) return res.status(500).send("There was a problem updating the team.");
+            res.status(200).send(team);
+        }
+    );
+});
+
 //Returns all the teams in the database
 router.get('/', function (req, res) {
-    RegisteredTeam.find({}, function (err, teams) {
-        if (err) return res.status(500).send("There was a problem finding the users.");
+    Team.find({}, function (err, teams) {
+        if (err) return res.status(500).send("There was a problem finding the teams.");
         res.status(200).send(teams);
     });
 });
@@ -35,7 +58,7 @@ router.get('/', function (req, res) {
 //Gets a single team from the database
 // router.get('/:id', function(req, res)
 // {
-//     RegisteredTeam.findById(req.params.id, function(err, team) 
+//     Team.findById(req.params.id, function(err, team) 
 //     {
 //         if (err) return res.status(500).send("There was a problem finding the team.");
 //         if(!team) return res.status(404).send("No team found.");
@@ -50,8 +73,8 @@ router.get('/:id', function (req, res) {
     let returnData = {};
 
 
-    //find team
-    RegisteredTeam.findById(
+    //find teams
+    Team.findById(
 
         {
             _id: teamID
@@ -60,9 +83,9 @@ router.get('/:id', function (req, res) {
                 res.send("Error!");
                 return;
             }
-            Player.find(
+            User.find(
                 {
-                    _id:{$in:team.players}
+                    _id: { $in: team.players }
                 }, function (err, players) {
                     if (err) {
                         res.send("MAJOR ERROR");
@@ -77,18 +100,22 @@ router.get('/:id', function (req, res) {
         })
 });
 
-//Deletes a single team from the database
+//Deletes a single team from the database. Does not delete the users that were associated with the team. This works.
 router.delete('/:id', function (req, res) {
-    RegisteredTeam.findByIdAndRemove(req.params.id, function (err, team) {
-        if (err) return res.status(500).send("There was a problem deleting the user.");
-        res.status(200).send("User " + team.name + " was deleted.");
+    Team.findByIdAndRemove(req.params.id, function (err, team) {
+        if (err) return res.status(500).send("There was a problem deleting the team.");
+        res.status(200).send("Team " + team.name + " was deleted.");
     });
+
+
+
+
 });
 
 //Updates a single team in the database
 router.put('/:id', function (req, res) {
-    RegisteredTeam.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, team) {
-        if (err) return res.status(500).send("There was a problem updating the user.");
+    Team.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, team) {
+        if (err) return res.status(500).send("There was a problem updating the team.");
         res.status(200).send(team);
     });
 });

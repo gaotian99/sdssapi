@@ -24,15 +24,16 @@ app.use(cors());
 
 
 //ROUTES
-var UserController = require('./usercontroller');
-app.use('/users', UserController);
+var UserController = require('./controllers/usercontroller');
+app.use('/user', UserController);
 
 
-var TeamController = require('./teamcontroller');
-app.use('/teams', TeamController); //URL to use
+var TeamController = require('./controllers/teamcontroller');
+app.use('/team', TeamController); //URL to use
 
-var PlayerController = require('./playercontroller');
-app.use('/players', PlayerController);
+
+var LeagueController = require('./controllers/leaguecontroller');
+app.use('/league', LeagueController)
 
 
 

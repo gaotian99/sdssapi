@@ -2,17 +2,20 @@ var express = require('express');
 var router = express.Router();
 
 
-var User = require('./user');
+var User = require('../models/user');
 
 
 //Creates a new user
-router.post('/', function (req, res) 
+router.post('/create', function (req, res) 
 {
     User.create(
     {
         name : req.body.name,
         email : req.body.email,
-        password : req.body.password
+        password : req.body.password,
+        age: req.body.age,
+        sex: req.body.sex,
+        phoneNumber: req.body.phoneNumber,
     },
     function(err, user)
     {
@@ -68,3 +71,44 @@ router.put('/:id', function (req, res)
 
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+//this i dont need
+
+// //Creates a new player and returns the team the player was created for. Includes all players already assigned to the team.
+// router.post('/', function (req, res) {
+//     Player.create(
+//         {
+//             player_name: req.body.player_name,
+//         },
+//         function (err, player) {
+//             if (err) {
+//                 console.log(err);
+//                 return res.status(500).send("There was a problem adding the information to the database.");
+//             }
+//                 console.log(req.body.teamID);
+//                 console.log("hello");
+//                 //console.log(teamID);
+//                 //res.status(200).send(player);//return the player
+//                 let teamID = req.body.teamID;
+
+//                 //find team????
+
+//                 Team.findByIdAndUpdate(teamID, { $push: { players: player._id } }, { new: true }, function (err, team) {
+//                     if (err) return res.status(500).send("There was a problem updating the user.");
+//                     res.status(200).send(team);
+//                 });
+            
+//         });
+
+//     //res.status(200).send(player);//return the player
+// });
