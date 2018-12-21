@@ -72,6 +72,10 @@ router.put('/:id', function (req, res) {
     });
 });
 
+
+
+
+
 //Gets all leagues based on the sport ** WORKS
 router.get('/:sport', function (req, res) {
     let sport = req.params.sport;
@@ -80,6 +84,20 @@ router.get('/:sport', function (req, res) {
     }, function (err, league) {
         if (err) return res.status(500).send("There was a problem finding the leagues.");
 
+        res.status(200).send(league);
+    });
+});
+
+//Gets a single league from the database
+router.get('/league/:id', function(req, res)
+{
+    console.log("turnedon");
+    console.log(req.params.id);
+    let leagueID = req.params.id;
+    League.findById(leagueID, function(err, league) 
+    {
+        if (err) return res.status(500).send("There was a problem findinasdfg the league.");
+        if(!league) return res.status(404).send("No league found.");
         res.status(200).send(league);
     });
 });

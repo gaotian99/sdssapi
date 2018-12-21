@@ -100,6 +100,33 @@ router.get('/:id', function (req, res) {
         })
 });
 
+
+//Gets all teams with a specific leagueID**WORKS
+
+router.get('/league/:id', function (req, res) {
+    let leagueID = req.params.id;
+
+    //find teams
+    Team.find(
+        {
+            leagueID: leagueID
+        },
+        function (err, team) {
+            console.log(team);
+            if (err || !team) {
+
+                res.send("Error!");
+
+            }
+            res.status(200).send(team);
+        })
+});
+
+
+
+
+
+
 //Deletes a single team from the database. Does not delete the users that were associated with the team. This works.
 router.delete('/:id', function (req, res) {
     Team.findByIdAndRemove(req.params.id, function (err, team) {
