@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var MatchSchema = new mongoose.Schema({  
   location: {type: String},
-  startDate: {type: Date},
+  startDate: {type: String},
 });
 
 

@@ -24,17 +24,22 @@ app.use(cors());
 
 
 //ROUTES
-var UserController = require('./controllers/usercontroller');
+var UserController = require('./controllers/userController');
 app.use('/user', UserController);
 
 
-var TeamController = require('./controllers/teamcontroller');
+var TeamController = require('./controllers/teamController');
 app.use('/team', TeamController); //URL to use
 
 
-var LeagueController = require('./controllers/leaguecontroller');
+var LeagueController = require('./controllers/leagueController');
 app.use('/league', LeagueController)
 
+var MatchController = require('./controllers/matchController');
+app.use('/match', MatchController);
+
+var MatchResultController = require('./controllers/matchResultController');
+app.use('/matchresult', MatchResultController);
 
 
 // catch 404 and forward to error handler

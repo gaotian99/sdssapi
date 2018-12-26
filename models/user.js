@@ -7,7 +7,8 @@ var UserSchema = new mongoose.Schema({
   name: {type: String,required: true},
   age:{type: Number, required: true,},
   sex:{type: String,required: true,},
-  phoneNumber:{type: String,required: true,}
+  phoneNumber:{type: String,required: true,},
+  role:{type: String, required: true,},
 });
 
 

@@ -102,6 +102,28 @@ router.get('/league/:id', function(req, res)
     });
 });
 
+//Gets all teams with a specific leagueID**WORKS
+
+router.get('/team/:id', function (req, res) {
+    let leagueID = req.params.id;
+
+    //find teams
+    Team.find(
+        {
+            leagueID: leagueID
+        },
+        function (err, team) {
+            console.log(team);
+            if (err || !team) {
+
+                res.send("Error!");
+
+            }
+            res.status(200).send(team);
+        })
+});
+
+
 
 
 

@@ -2,70 +2,68 @@ var express = require('express');
 var router = express.Router();
 
 
-var User = require('../models/user');
+var MatchResult = require('../models/matchResult');
 
 
-//Creates a new user
+//Creates a new match result
 router.post('/create', function (req, res) 
 {
-    User.create(
+    MatchResult.create(
     {
-        name : req.body.name,
-        email : req.body.email,
-        password : req.body.password,
-        age: req.body.age,
-        sex: req.body.sex,
-        phoneNumber: req.body.phoneNumber,
-        role: req.body.role,
+        teamID: {type: mongoose.Schema.Types.ObjectId, ref: "team"},
+        matchID: {type: mongoose.Schema.Types.ObjectId, ref: "match"},
+        result: {type: Boolean},
+
+
     },
-    function(err, user)
+    function(err, matchResult)
     {
         if(err)
         {
             return res.status(500).send("There was a problem adding the information to the database.");
         } 
-        res.status(200).send(user);
+        res.status(200).send(matchResult);
     });
 });
 
-//Returns all the users in the database
+//Returns all the matches in the database
 router.get('/', function (req, res)
 {
-    User.find({}, function (err, users)
+    Match.find({}, function (err, matches)
     {
-        if(err) return res.status(500).send("There was a problem finding the users.");
-        res.status(200).send(users);
+        if(err) return res.status(500).send("There was a problem finding the matches.");
+        res.status(200).send(matches);
     });
 });
 
-//Gets a single user from the database
+//Gets a single match from the database
 router.get('/:id', function(req, res)
 {
-    User.findById(req.params.id, function(err, user) 
+    Match.findById(req.params.id, function(err, match) 
     {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if(!user) return res.status(404).send("No user found.");
-        res.status(200).send(user);
+        if (err) return res.status(500).send("There was a problem finding the match.");
+        if(!match) return res.status(404).send("No match found.");
+        res.status(200).send(match);
     });
 });
 
-//Deletes a single user from the database
+//Deletes a single match from the database
 router.delete('/:id', function (req, res) 
 {
-    User.findByIdAndRemove(req.params.id, function(err,user) 
+    Match.findByIdAndRemove(req.params.id, function(err,match) 
     {
-        if(err) return res.status(500).send("There was a problem deleting the user.");
-        res.status(200).send("User "+ user.name + " was deleted.");
+        if(err) return res.status(500).send("There was a problem deleting the match.");
+        res.status(200).send("Match "+ match.id + " was deleted.");
     });
 });
 
-//Updates a single user in the database
+//Updates a single match in the database
 router.put('/:id', function (req, res) 
 {
-    User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user)
+    Match.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, match)
     {
-        if(err) return res.status(500).send("There was a problem updating the user.");
-        res.status(200).send(user);
+        if(err) return res.status(500).send("There was a problem updating the match.");
+        res.status(200).send(match);
     });
 });
 

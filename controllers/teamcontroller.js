@@ -49,7 +49,7 @@ router.post('/player/add', function (req, res) {
 
 //Returns all the teams in the database
 router.get('/', function (req, res) {
-    Team.find({}, function (err, teams) {
+    Team.find({} , function (err, teams) {
         if (err) return res.status(500).send("There was a problem finding the teams.");
         res.status(200).send(teams);
     });
@@ -73,11 +73,13 @@ router.get('/:id', function (req, res) {
     let returnData = {};
 
 
-    //find teams
+    //find team
     Team.findById(
-
+        
         {
             _id: teamID
+            
+            
         }, function (err, team) {
             if (err || !team) {
                 res.send("Error!");
@@ -94,33 +96,23 @@ router.get('/:id', function (req, res) {
                     //players = players.toJSON();
                     returnData.team = team;
                     returnData.team.players = players;
+                    
 
                     res.json(returnData);
                 })
-        })
+        }).populate('captain', 'name')
 });
 
 
-//Gets all teams with a specific leagueID**WORKS
 
-router.get('/league/:id', function (req, res) {
-    let leagueID = req.params.id;
+// function getUserWithPosts(username){
+//     return User.findOne({ username: username })
+//       .populate('posts').exec((err, posts) => {
+//         console.log("Populated User " + posts);
+//       })
+//   }
 
-    //find teams
-    Team.find(
-        {
-            leagueID: leagueID
-        },
-        function (err, team) {
-            console.log(team);
-            if (err || !team) {
 
-                res.send("Error!");
-
-            }
-            res.status(200).send(team);
-        })
-});
 
 
 
@@ -146,6 +138,11 @@ router.put('/:id', function (req, res) {
         res.status(200).send(team);
     });
 });
+
+
+
+//Gets team captain based on team ID
+
 
 
 
