@@ -5,109 +5,55 @@ var router = express.Router();
 var MatchResult = require('../models/matchResult');
 
 
-//Creates a new match result
-router.post('/create', function (req, res) 
-{
+//Creates a new matchResult
+router.post('/create', function (req, res) {
     MatchResult.create(
-    {
-        teamID: {type: mongoose.Schema.Types.ObjectId, ref: "team"},
-        matchID: {type: mongoose.Schema.Types.ObjectId, ref: "match"},
-        result: {type: Boolean},
-
-
-    },
-    function(err, matchResult)
-    {
-        if(err)
         {
-            return res.status(500).send("There was a problem adding the information to the database.");
-        } 
-        res.status(200).send(matchResult);
-    });
+            teamID: req.body.teamID,
+            matchID: req.body.matchID,
+            result: req.body.result,
+        },
+        function (err, matchResult) {
+            if (err) {
+                return res.status(500).send("There was a problem adding the information to the database.");
+            }
+            res.status(200).send(matchResult);
+        });
 });
 
-//Returns all the matches in the database
-router.get('/', function (req, res)
-{
-    Match.find({}, function (err, matches)
-    {
-        if(err) return res.status(500).send("There was a problem finding the matches.");
-        res.status(200).send(matches);
+//Returns all the matchResults in the database
+router.get('/', function (req, res) {
+    MatchResult.find({}, function (err, matchResults) {
+        if (err) return res.status(500).send("There was a problem finding the matchResults.");
+        res.status(200).send(matchResults);
     });
 });
 
 //Gets a single match from the database
-router.get('/:id', function(req, res)
-{
-    Match.findById(req.params.id, function(err, match) 
-    {
-        if (err) return res.status(500).send("There was a problem finding the match.");
-        if(!match) return res.status(404).send("No match found.");
-        res.status(200).send(match);
+router.get('/:id', function (req, res) {
+    MatchResult.findById(req.params.id, function (err, matchResult) {
+        if (err) return res.status(500).send("There was a problem finding the matchResult.");
+        if (!matchResult) return res.status(404).send("No matchResult found.");
+        res.status(200).send(matchResult);
     });
 });
 
-//Deletes a single match from the database
-router.delete('/:id', function (req, res) 
-{
-    Match.findByIdAndRemove(req.params.id, function(err,match) 
-    {
-        if(err) return res.status(500).send("There was a problem deleting the match.");
-        res.status(200).send("Match "+ match.id + " was deleted.");
+//Deletes a single matchResult from the database
+router.delete('/:id', function (req, res) {
+    MatchResult.findByIdAndRemove(req.params.id, function (err, matchResult) {
+        if (err) return res.status(500).send("There was a problem deleting the matchResult.");
+        res.status(200).send("MatchResult " + matchResult.id + " was deleted.");
     });
 });
 
 //Updates a single match in the database
-router.put('/:id', function (req, res) 
-{
-    Match.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, match)
-    {
-        if(err) return res.status(500).send("There was a problem updating the match.");
-        res.status(200).send(match);
+router.put('/:id', function (req, res) {
+    MatchResult.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, matchResult) {
+        if (err) return res.status(500).send("There was a problem updating the matchResult.");
+        res.status(200).send(matchResult);
     });
 });
 
 
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-//this i dont need
-
-// //Creates a new player and returns the team the player was created for. Includes all players already assigned to the team.
-// router.post('/', function (req, res) {
-//     Player.create(
-//         {
-//             player_name: req.body.player_name,
-//         },
-//         function (err, player) {
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(500).send("There was a problem adding the information to the database.");
-//             }
-//                 console.log(req.body.teamID);
-//                 console.log("hello");
-//                 //console.log(teamID);
-//                 //res.status(200).send(player);//return the player
-//                 let teamID = req.body.teamID;
-
-//                 //find team????
-
-//                 Team.findByIdAndUpdate(teamID, { $push: { players: player._id } }, { new: true }, function (err, team) {
-//                     if (err) return res.status(500).send("There was a problem updating the user.");
-//                     res.status(200).send(team);
-//                 });
-            
-//         });
-
-//     //res.status(200).send(player);//return the player
-// });
