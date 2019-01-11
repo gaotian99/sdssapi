@@ -29,7 +29,32 @@ router.get('/', function (req, res) {
     });
 });
 
-//Gets a single match from the database
+//Returns all the matchResults by team
+router.get('/', function (req, res){
+    let teamID = req.body.teamID;
+    MatchResult.find({
+        teamID: teamID
+    }, function (err, matchResults) {
+        if (err) return res.status(500).send("There was a problem find the teams matchResults.");
+        res.status(200).send(matchResults);
+    })
+})
+
+//returns all the wins by team
+router.get('/', function (req, res){
+    let teamID = req.body.teamID;
+    let wins;
+    MatchResult.count({
+        teamID: teamID,
+        result: true,
+    })
+})
+
+
+
+
+
+//Gets a single matchResult from the database
 router.get('/:id', function (req, res) {
     MatchResult.findById(req.params.id, function (err, matchResult) {
         if (err) return res.status(500).send("There was a problem finding the matchResult.");
@@ -46,7 +71,7 @@ router.delete('/:id', function (req, res) {
     });
 });
 
-//Updates a single match in the database
+//Updates a single matchResult in the database
 router.put('/:id', function (req, res) {
     MatchResult.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, matchResult) {
         if (err) return res.status(500).send("There was a problem updating the matchResult.");
