@@ -47,7 +47,7 @@ router.post('/addteam', function (req, res) {
     );
 });
 
-//Returns all the teams in the database
+//Returns all the leagues in the database
 router.get('/', function (req, res) {
     League.find({} , function (err, leagues) {
         if (err) return res.status(500).send("There was a problem finding the leagues.");

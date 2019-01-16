@@ -3,6 +3,7 @@ var router = express.Router();
 
 
 var MatchResult = require('../models/matchResult');
+var Team = require('../models/team');
 
 
 //Creates a new matchResult
@@ -29,18 +30,67 @@ router.get('/', function (req, res) {
     });
 });
 
-//Returns all the matchResults by team
-router.get('/', function (req, res){
-    let teamID = req.body.teamID;
+//Returns all the matchResults by teamID NOT DONE 1/15/2019 working on at lunch
+router.get('/:teamID', function (req, res){
+    let teamID = req.params.teamID;
+    console.log(teamID);
     MatchResult.find({
         teamID: teamID
     }, function (err, matchResults) {
-        if (err) return res.status(500).send("There was a problem find the teams matchResults.");
+        if (err) return res.status(500).send("There was a problem finding the teams matchResults.");
         res.status(200).send(matchResults);
-    })
-})
+    }).populate('teamID', 'name');
+    console.log("end");
+});
 
-//returns all the wins by team
+
+// router.get('/:id', function (req, res) {
+//     let teamID = req.params.id;
+//     let returnData = {};
+
+
+//     //find team
+//     Team.findById(
+        
+//         {
+//             _id: teamID
+            
+            
+//         }, function (err, team) {
+//             if (err || !team) {
+//                 res.send("Error!");
+//                 return;
+//             }
+//             User.find(
+//                 {
+//                     _id: { $in: team.players }
+//                 }, function (err, players) {
+//                     if (err) {
+//                         res.send("MAJOR ERROR");
+//                     }
+//                     team = team.toJSON();
+//                     //players = players.toJSON();
+//                     returnData.team = team;
+//                     returnData.team.players = players;
+                    
+
+//                     res.json(returnData);
+//                 })
+//         }).populate('captain', 'name')
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+//returns all the wins by team NOT DONE
 router.get('/', function (req, res){
     let teamID = req.body.teamID;
     let wins;
