@@ -41,7 +41,7 @@ router.post('/addteam', function (req, res) {
             new: true
         },
         function (err, team) {
-            if (err) return res.status(500).send("There was a problem updating the user.");
+            if (err) return res.status(500).send("There was a problem updating the team.");
             res.status(200).send("This was successful");
         }
     );
@@ -49,8 +49,17 @@ router.post('/addteam', function (req, res) {
 
 //Returns all the leagues in the database
 router.get('/', function (req, res) {
-    League.find({}, function (err, league) {
-        if (err) return res.status(500).send("There was a problem finding the users.");
+    League.find({} , function (err, leagues) {
+        if (err) return res.status(500).send("There was a problem finding the leagues.");
+        res.status(200).send(leagues);
+    });
+});
+
+
+//Returns all the unique sports in the database
+router.get('/sport', function (req, res) {
+    League.distinct("sport", {}, function (err, league) {
+        if (err) return res.status(500).send("There was a problem finding the leagues.");
         res.status(200).send(league);
     });
 });
@@ -60,14 +69,14 @@ router.get('/', function (req, res) {
 router.delete('/:id', function (req, res) {
     League.findByIdAndRemove(req.params.id, function (err, league) {
         if (err) return res.status(500).send("There was a problem deleting the league.");
-        res.status(200).send("Leauge " + league.description + " was deleted.");
+        res.status(200).send("League " + league.description + " was deleted.");
     });
 });
 
 //Updates a single team in the database
 router.put('/:id', function (req, res) {
     League.findByIdAndUpdate(req.params.id, req.body, { new: true }, function (err, team) {
-        if (err) return res.status(500).send("There was a problem updating the user.");
+        if (err) return res.status(500).send("There was a problem updating the team.");
         res.status(200).send(team);
     });
 });
@@ -91,12 +100,11 @@ router.get('/:sport', function (req, res) {
 //Gets a single league from the database
 router.get('/league/:id', function(req, res)
 {
-    console.log("turnedon");
     console.log(req.params.id);
     let leagueID = req.params.id;
     League.findById(leagueID, function(err, league) 
     {
-        if (err) return res.status(500).send("There was a problem findinasdfg the league.");
+        if (err) return res.status(500).send("There was a problem finding the league.");
         if(!league) return res.status(404).send("No league found.");
         res.status(200).send(league);
     });

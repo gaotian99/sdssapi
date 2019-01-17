@@ -38,6 +38,21 @@ router.get('/', function (req, res)
     });
 });
 
+//Returns all the users in the database
+router.get('/leagueManager', function (req, res)
+{
+    User.find({ "role" : "league manager"}, function (err, users)
+    {
+        if(err) return res.status(500).send("There was a problem finding the users.");
+        res.status(200).send(users);
+    });
+});
+
+
+
+
+
+
 //Gets a single user from the database
 router.get('/:id', function(req, res)
 {
