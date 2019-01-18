@@ -12,7 +12,8 @@ router.post('/create', function (req, res)
     {
         name : req.body.name,
         email : req.body.email,
-        password : req.body.password,
+        passwordHash : req.body.passwordHash,
+        passwordSalt : req.body.passwordSalt,
         age: req.body.age,
         sex: req.body.sex,
         phoneNumber: req.body.phoneNumber,

@@ -41,6 +41,9 @@ app.use('/match', MatchController);
 var MatchResultController = require('./controllers/matchResultController');
 app.use('/matchresult', MatchResultController);
 
+var AuthenticationController = require('./controllers/authenticationController');
+app.use('api', AuthenticationController);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

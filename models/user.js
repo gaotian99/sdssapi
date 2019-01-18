@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({  
   email: {type: String, unique: false, required: true },
-  password:{hash: String,salt: String},
+  passwordHash: {type: String, required: true},
+  passwordSalt: {type: String, required: true},
   name: {type: String,required: true},
   age:{type: Number, required: true,},
   sex:{type: String,required: true,},
