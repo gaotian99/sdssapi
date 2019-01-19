@@ -2,12 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
+require('./config/passport')
+
 var logger = require('morgan');
 var db = require('./db');
 var cors = require('cors');
-
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/index');
+
 
 var app = express();
 
@@ -27,10 +30,8 @@ app.use(cors());
 var UserController = require('./controllers/userController');
 app.use('/user', UserController);
 
-
 var TeamController = require('./controllers/teamController');
 app.use('/team', TeamController); //URL to use
-
 
 var LeagueController = require('./controllers/leagueController');
 app.use('/league', LeagueController)
@@ -42,7 +43,7 @@ var MatchResultController = require('./controllers/matchResultController');
 app.use('/matchresult', MatchResultController);
 
 var AuthenticationController = require('./controllers/authenticationController');
-app.use('api', AuthenticationController);
+app.use('/api', AuthenticationController);
 
 
 // catch 404 and forward to error handler
