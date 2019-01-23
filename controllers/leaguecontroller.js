@@ -11,12 +11,16 @@ var Team = require('../models/team');
 router.post('/create', function (req, res) {
     League.create(
         {
+            name: req.body.name,
             description: req.body.description,
             sport: req.body.sport,
             startDate: req.body.startDate,
             gender: req.body.gender,
             competitionLevel: req.body.competitionLevel,
             leagueManager: req.body.leagueManager,
+            news: req.body.news,
+            headline: req.body.headline,
+            fee: req.body.fee,
         },
         function (err, league) {
             if (err) {
