@@ -8,10 +8,10 @@ var UserSchema = new mongoose.Schema({
   passwordHash: {type: String, required: true},
   passwordSalt: {type: String, required: true},
   name: {type: String,required: true},
-  age:{type: Number, required: true,},
-  sex:{type: String,required: true,},
-  phoneNumber:{type: String,required: true,},
-  role:{type: String, required: true,},
+  age:{type: Number, required: true},
+  sex:{type: String,required: true},
+  phoneNumber:{type: String,required: true},
+  role:{type: String, required: true},
 });
 
 UserSchema.methods.setPassword = function(password){
@@ -34,6 +34,7 @@ UserSchema.methods.generateJwt = function() {
     _id: this._id,
     email: this.email,
     name: this.name,
+    role: this.role,
     exp: parseInt(expiry.getTime() / 1000),
   }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };

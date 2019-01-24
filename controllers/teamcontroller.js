@@ -125,11 +125,10 @@ router.delete('/:id', function (req, res) {
         if (err) return res.status(500).send("There was a problem deleting the team.");
         res.status(200).send("Team " + team.name + " was deleted.");
     });
-
-
-
-
 });
+
+
+
 
 //Updates a single team in the database
 router.put('/:id', function (req, res) {

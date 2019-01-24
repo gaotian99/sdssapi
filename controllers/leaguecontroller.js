@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-
+var auth = require('../config/auth');
 var League = require('../models/league');
 var Team = require('../models/team');
 //var Player = require('./player');
