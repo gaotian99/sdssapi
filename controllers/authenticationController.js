@@ -1,3 +1,7 @@
+//CREATES NEW USER
+//USER LOGIN
+
+
 var express = require('express');
 var router = express.Router();
 
@@ -11,7 +15,7 @@ var sendJSONresponse = function (res, status, content) {
   res.json(content);
 };
 
-
+//Creates a new user
 router.post('/register', function (req, res) {
 
     if(!req.body.name || !req.body.email || !req.body.password) {
