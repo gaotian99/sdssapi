@@ -8,7 +8,8 @@ var Team = require('../models/team');
 
 
 //Creates a new league **WORKS
-router.post('/create',auth, function (req, res) {
+router.post('/create', auth, function (req, res) {
+
     League.create(
         {
             name: req.body.name,

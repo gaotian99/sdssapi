@@ -77,28 +77,6 @@ router.post('/login', function(req, res, next) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.login = function (req, res) {
 
   // if(!req.body.email || !req.body.password) {
