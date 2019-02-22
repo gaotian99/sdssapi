@@ -1,30 +1,42 @@
 var express = require('express');
 var router = express.Router();
 
-
+var auth = require('../config/auth');
 var League = require('../models/league');
 var Team = require('../models/team');
 //var Player = require('./player');
 
 
 //Creates a new league **WORKS
-router.post('/create', function (req, res) {
-    League.create(
-        {
-            description: req.body.description,
-            sport: req.body.sport,
-            startDate: req.body.startDate,
-            gender: req.body.gender,
-            competitionLevel: req.body.competitionLevel,
-            leagueManager: req.body.leagueManager,
-        },
-        function (err, league) {
-            if (err) {
-                console.log(err);
-                return res.status(500).send("There was a problem adding the information to the database.");
-            }
-            res.status(200).send(league);
-        });
+router.post('/create', auth, function (req, res) {
+
+    if (req.payload.role === 'league manager' || 'admin') {
+        League.create(
+            {
+                name: req.body.name,
+                description: req.body.description,
+                sport: req.body.sport,
+                startDate: req.body.startDate,
+                gender: req.body.gender,
+                competitionLevel: req.body.competitionLevel,
+                leagueManager: req.body.leagueManager,
+                news: req.body.news,
+                headline: req.body.headline,
+                fee: req.body.fee,
+            },
+            function (err, league) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send("There was a problem adding the information to the database.");
+                }
+                res.status(200).send(league);
+            });
+    }
+    else{
+        return res.status(500).send("Unauthorized to perform this task")
+    }
+
+
 });
 
 //adds a leagueID to a teamID **WORKS
@@ -49,7 +61,7 @@ router.post('/addteam', function (req, res) {
 
 //Returns all the leagues in the database
 router.get('/', function (req, res) {
-    League.find({} , function (err, leagues) {
+    League.find({}, function (err, leagues) {
         if (err) return res.status(500).send("There was a problem finding the leagues.");
         res.status(200).send(leagues);
     });
@@ -98,14 +110,12 @@ router.get('/:sport', function (req, res) {
 });
 
 //Gets a single league from the database
-router.get('/league/:id', function(req, res)
-{
+router.get('/league/:id', function (req, res) {
     console.log(req.params.id);
     let leagueID = req.params.id;
-    League.findById(leagueID, function(err, league) 
-    {
+    League.findById(leagueID, function (err, league) {
         if (err) return res.status(500).send("There was a problem finding the league.");
-        if(!league) return res.status(404).send("No league found.");
+        if (!league) return res.status(404).send("No league found.");
         res.status(200).send(league);
     });
 });

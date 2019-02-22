@@ -5,29 +5,6 @@ var router = express.Router();
 var User = require('../models/user');
 
 
-//Creates a new user
-router.post('/create', function (req, res) 
-{
-    User.create(
-    {
-        name : req.body.name,
-        email : req.body.email,
-        passwordHash : req.body.passwordHash,
-        passwordSalt : req.body.passwordSalt,
-        age: req.body.age,
-        sex: req.body.sex,
-        phoneNumber: req.body.phoneNumber,
-        role: req.body.role,
-    },
-    function(err, user)
-    {
-        if(err)
-        {
-            return res.status(500).send("There was a problem adding the information to the database.");
-        } 
-        res.status(200).send(user);
-    });
-});
 
 //Returns all the users in the database
 router.get('/', function (req, res)
@@ -76,7 +53,7 @@ router.delete('/:id', function (req, res)
 });
 
 //Updates a single user in the database
-router.put('/:id', function (req, res) 
+router.put('/:email', function (req, res) 
 {
     User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, user)
     {
